@@ -21,7 +21,7 @@ class Mapa:
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1'],
-            [' ', ' ', ' ', '1', '4', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' '],
+            [' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '3', ' ', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
@@ -42,6 +42,8 @@ class Mapa:
         
 
         self.plataformas = pygame.sprite.Group()
+        self.arboles = pygame.sprite.Group()  # Crear un grupo separado para los árboles
+
         self.crear_mundo()
 
     def crear_mundo(self):
@@ -93,11 +95,20 @@ class Mapa:
         for plataforma in self.plataformas:
             offset_pos = plataforma.rect.topleft - offset
             ventana.blit(plataforma.image, offset_pos)
+
+        for arbol in self.arboles:
+            offset_pos = arbol.rect.topleft - offset
+            ventana.blit(arbol.image, offset_pos)    
+    
+    def plantar_arbol(self, posicion):
+        """Planta un árbol en la posición especificada."""
+        arbol = pygame.sprite.Sprite()
+        arbol.image = self.sprite_arbol
+        arbol.rect = arbol.image.get_rect(topleft=posicion)
+        self.arboles.add(arbol)  # Agregar el árbol al grupo de árboles
             
             
     
-        
-        
 
 class PlataformaExterna(pygame.sprite.Sprite):
     def __init__(self, x, y, ancho, alto):
@@ -106,11 +117,4 @@ class PlataformaExterna(pygame.sprite.Sprite):
         self.image.fill((0, 255, 0))  # Color verde para distinguirla
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        
-    def plantar_arbol(self, posicion):
-        """Coloca un árbol en la posición especificada."""
-        arbol = pygame.sprite.Sprite()
-        arbol.image = self.sprite_arbol
-        arbol.rect = arbol.image.get_rect()
-        arbol.rect.topleft = posicion
-        self.plataformas.add(arbol)
+    

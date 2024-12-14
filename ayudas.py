@@ -64,7 +64,7 @@ def camara(jugador):
         ventana.blit(sprite.image, offset_pos)
 
 # Mostrar texto en pantalla
-def mostrar_texto(ventana, texto, x, y, tamano=70, color=BLANCO,fuente_personalizada="C:/Users/Juan S Correa.000/Desktop/PPIPOO/POO/fonts/Planes_ValMore.ttf"):
+def mostrar_texto(ventana, texto, x, y, tamano=70, color=BLANCO,fuente_personalizada="./fonts/Planes_ValMore.ttf"):
     x = x
     y = y
     try:
@@ -81,7 +81,7 @@ def mostrar_texto(ventana, texto, x, y, tamano=70, color=BLANCO,fuente_personali
 
 # Clase para texto intermitente
 class TextoIntermitente:
-    def __init__(self, texto, x, y, fuente_personalizada = "C:/Users/Juan S Correa.000/Desktop/PPIPOO/POO/fonts/Action_Man_Bold.ttf", tamano_fuente=30):
+    def __init__(self, texto, x, y, fuente_personalizada = "./fonts/Action_Man_Bold.ttf", tamano_fuente=30):
         self.texto = texto
         self.x = 250
         self.y = 460

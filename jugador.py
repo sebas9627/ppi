@@ -98,7 +98,7 @@ class Jugador:
                 self.velocidad.x = 0
             if plataforma.rect.colliderect(self.sprite.rect.move(0, self.velocidad.y)):
                 if self.velocidad.y > 0:
-                    print(f"Colisión inferior detectada con plataforma en posición: {plataforma.rect.topleft}")
+                    print(f"Colisión inferior detectada con plataforma en posición: {plataforma.rect}, Jugador rect: {self.sprite.rect}")
                     self.sprite.rect.bottom = plataforma.rect.top
                     self.velocidad.y = 0
                     self.en_tierra = True
@@ -125,9 +125,15 @@ class Jugador:
         if self.semillas_recogidas > 0:
             colision_detectada = False
             for plataforma in mapa.plataformas:
-                if plataforma.rect.colliderect(self.sprite.rect):
+                #Verificar esquinas de la plataforma
+                if (plataforma.rect.colliderect(self.sprite.rect) or
+                    (self.sprite.rect.bottom == plataforma.rect.top and
+                     self.sprite.rect.right > plataforma.rect.left and
+                     self.sprite.rect.left < plataforma.rect.right)):
                     print(f"Colisión detectada con plataforma en posición: {plataforma.rect.topleft}")
-                    mapa.plantar_arbol(plataforma.rect.topleft)
+                    # Ajustar la posición del árbol para que se plante justo encima de la plataforma 
+                    posicion_arbol = (plataforma.rect.midtop[0] - self.sprite.rect.width // 2, plataforma.rect.top - int(1.5 * self.sprite.rect.height))
+                    mapa.plantar_arbol(posicion_arbol)
                     self.semillas_recogidas -= 1
                     colision_detectada = True
                     break
@@ -136,4 +142,4 @@ class Jugador:
         else:
             print("No hay suficientes semillas para plantar un árbol.")
 
-    
+            
